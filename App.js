@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import Header from './components/Header';
 import ToDoItem from './components/ToDoItem';
+import AddTodo from './components/AddTodo';
 
 
 
@@ -23,17 +24,29 @@ const App = () => {
     })
   }
 
+  const submitHandler = (text) => {
+    setTodos((prevTodos) => {
+      return [
+        { text: text, key: Math.random().toString() },
+        ...prevTodos //spreads previous todos into new array
+      ]
+    })
+  }
+
   return (
     
     <View style={styles.container}>
       <Header/>
       <View style={styles.content}>
-        <FlatList
-          data={todos}
-          renderItem={({ item }) => (
-            <ToDoItem item={item} pressHandler={pressHandler} />
-          )}
-        />
+        <AddTodo submitHandler={submitHandler} />
+        <View style={styles.list}>
+          <FlatList
+            data={todos}
+            renderItem={({ item }) => (
+              <ToDoItem item={item} pressHandler={pressHandler} />
+            )}
+          />
+        </View>
       </View>
     </View>
   );
